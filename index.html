@@ -126,7 +126,7 @@
                   function displayHighlight(highlight, seed) {
                                 document.getElementById('date').textContent = formatDate(new Date());
                                 document.getElementById('word').textContent = pickFromSeed(themeWords, seed + 1);
-                                document.getElementById('highlight').textContent = '"' + highlight.text + '"';
+                                document.getElementById('highlight').textContent = highlight.text;
 
                                 let sourceText = '';
                                 if (highlight.title) {
