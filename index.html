@@ -92,10 +92,8 @@
         </div>div>
 
         <script>
-                  // Configuration - Replace with your Readwise API token
                   const READWISE_TOKEN = localStorage.getItem('readwise_token') || '';
 
-                  // Theme words to pair with highlights
                   const themeWords = [
                                 'reflect', 'wonder', 'grow', 'create', 'connect', 'explore', 'dream',
                                 'learn', 'embrace', 'discover', 'imagine', 'persist', 'breathe', 'focus',
@@ -105,31 +103,26 @@
                                 'change', 'hope', 'strength', 'presence', 'depth', 'flow', 'light'
                             ];
 
-                  // Format date
                   function formatDate(date) {
                                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                                 return date.toLocaleDateString('en-US', options);
                   }
 
-                  // Get deterministic daily seed from date
                   function getDailySeed() {
                                 const today = new Date();
                                 return today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
                   }
 
-                  // Simple seeded random
                   function seededRandom(seed) {
                                 const x = Math.sin(seed) * 10000;
                                 return x - Math.floor(x);
                   }
 
-                  // Pick item from array using seed
                   function pickFromSeed(array, seed) {
                                 const index = Math.floor(seededRandom(seed) * array.length);
                                 return array[index];
                   }
 
-                  // Display the highlight
                   function displayHighlight(highlight, seed) {
                                 document.getElementById('date').textContent = formatDate(new Date());
                                 document.getElementById('word').textContent = pickFromSeed(themeWords, seed + 1);
@@ -137,15 +130,14 @@
 
                                 let sourceText = '';
                                 if (highlight.title) {
-                                                  sourceText = '<span class="book">' + highlight.title + '</span>';
+                                                  sourceText = highlight.title;
                                                   if (highlight.author) {
                                                                         sourceText += ' by ' + highlight.author;
                                                   }
                                 }
-                                document.getElementById('source').innerHTML = sourceText;
+                                document.getElementById('source').textContent = sourceText;
                   }
 
-                  // Fetch highlights from Readwise
                   async function fetchHighlights() {
                                 if (!READWISE_TOKEN) {
                                                   showSetupNotice();
@@ -172,21 +164,18 @@
                                 }
                   }
 
-                  // Show setup instructions
                   function showSetupNotice() {
-                                document.getElementById('highlight').innerHTML = 'Welcome to Daily Highlight';
-                                document.getElementById('source').innerHTML = `
-                                                <div class="setup-notice">
-                                                                    <strong>Setup Required:</strong><br><br>
-                                                                                        1. Get your Readwise API token from <a href="https://readwise.io/access_token" target="_blank">readwise.io/access_token</a><br><br>
-                                                                                                            2. Open browser console (F12) and run:<br>
-                                                                                                                                <code>localStorage.setItem('readwise_token', 'YOUR_TOKEN_HERE')</code><br><br>
-                                                                                                                                                    3. Refresh this page
-                                                                                                                                                                    </div>
-                                                                                                                                                                                `;
+                                document.getElementById('highlight').textContent = 'Welcome to Daily Highlight';
+                                const notice = document.createElement('div');
+                                notice.className = 'setup-notice';
+                                notice.innerHTML = '<strong>Setup Required:</strong><br><br>' +
+                                                  '1. Get your Readwise API token from <a href="https://readwise.io/access_token" target="_blank">readwise.io/access_token</a><br><br>' +
+                                                  '2. Open browser console (F12) and run:<br>' +
+                                                  '<code>localStorage.setItem(\'readwise_token\', \'YOUR_TOKEN_HERE\')</code><br><br>' +
+                                                  '3. Refresh this page';
+                                document.getElementById('source').appendChild(notice);
                   }
 
-                  // Main function
                   async function main() {
                                 const seed = getDailySeed();
                                 document.getElementById('date').textContent = formatDate(new Date());
