@@ -129,10 +129,10 @@
                                 document.getElementById('highlight').textContent = highlight.text;
 
                                 let sourceText = '';
-                                if (highlight.title) {
-                                                  sourceText = highlight.title;
-                                                  if (highlight.author) {
-                                                                        sourceText += ' by ' + highlight.author;
+                                if (highlight.book_title) {
+                                                  sourceText = highlight.book_title;
+                                                  if (highlight.book_author) {
+                                                                        sourceText += ' by ' + highlight.book_author;
                                                   }
                                 }
                                 document.getElementById('source').textContent = sourceText;
